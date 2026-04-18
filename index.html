@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3a.4 • Integrals of the Form (a sin x + b cos x)/(c sin x + d cos x)</title>
+    <title>Lembar Kerja 7 • Evaluasi Integral Menggunakan Limit Jumlah Riemann</title>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
     <style>
-        :root {
-            --primary: #1e40af;
-            --accent: #00aaff;
-        }
+        :root { --primary: #1e40af; --accent: #00aaff; }
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -29,237 +26,180 @@
         header {
             background: linear-gradient(90deg, var(--primary), #2a5bc4);
             color: white;
-            padding: 2.2rem 3rem;
+            padding: 2rem 3rem;
             position: relative;
         }
         header::after {
             content: '';
             position: absolute;
             bottom: -1px;
-            left: 0;
-            right: 0;
+            left: 0; right: 0;
             height: 8px;
             background: linear-gradient(90deg, var(--accent), #00ccff);
         }
-        h1 { font-size: 2.5rem; margin-bottom: 0.4rem; }
-        .subtitle { font-size: 1.35rem; opacity: 0.95; }
-        .main-content {
-            padding: 3rem;
-        }
+        h1 { font-size: 2.4rem; margin-bottom: 0.4rem; }
+        .main-content { padding: 3rem; }
         .concept-box, .theory-box, .reflection {
-            padding: 1.8rem;
-            margin: 2rem 0;
-            border-radius: 12px;
+            padding: 1.8rem; margin: 2rem 0; border-radius: 12px;
         }
-        .concept-box {
-            background: linear-gradient(90deg, #f0f8ff, #e6f4ff);
-            border-left: 7px solid var(--accent);
-        }
-        .theory-box {
-            background: #fff9e6;
-            border: 2px dashed #d4a017;
-        }
-        .reflection {
-            background: #fff0f0;
-            border-left: 7px solid #f87171;
-        }
+        .concept-box { background: linear-gradient(90deg, #f0f8ff, #e6f4ff); border-left: 7px solid var(--accent); }
+        .theory-box { background: #fff9e6; border: 2px dashed #d4a017; }
+        .reflection { background: #fff0f0; border-left: 7px solid #f87171; }
         .step {
             counter-reset: step-counter;
             position: relative;
             padding-left: 58px;
-            margin: 2rem 0;
+            margin: 1.8rem 0;
             background: #f8fbff;
             border-radius: 10px;
-            padding: 1.2rem 1.8rem 1.2rem 58px;
+            padding: 1.3rem 1.8rem 1.3rem 58px;
         }
         .step::before {
             counter-increment: step-counter;
             content: "Langkah " counter(step-counter);
             position: absolute;
-            left: 12px;
-            top: 18px;
+            left: 14px; top: 22px;
             background: var(--primary);
             color: white;
-            width: 38px;
-            height: 38px;
+            width: 38px; height: 38px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-weight: 700;
-            font-size: 1.1rem;
         }
-        .example {
-            background: #f0fff0;
-            border: 3px solid #4ade80;
-            border-radius: 12px;
-            padding: 1.8rem;
-            margin: 2.5rem 0;
-        }
-        .example-title {
-            color: #166534;
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        .nav-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--primary);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 2rem;
-        }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: #f8fbff;
-            color: #555;
-            font-size: 0.95rem;
-        }
+        .example { background: #f0fff0; border: 3px solid #4ade80; border-radius: 12px; padding: 1.8rem; margin: 2.5rem 0; }
+        .example-title { color: #166534; font-weight: 700; font-size: 1.35rem; margin-bottom: 1rem; }
+        footer { text-align: center; padding: 2rem; background: #f8fbff; color: #555; font-size: 0.95rem; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <a href="#" onclick="window.history.back()" class="nav-back">← Kembali ke Modul 3a Lengkap</a>
-            <h1>3a.4 TO EVALUATE INTEGRALS OF THE FORM</h1>
-            <p class="subtitle">\(\int \frac{a \sin x + b \cos x}{c \sin x + d \cos x}\, dx\)<br>
-            (di mana a, b, c, d adalah konstanta)</p>
+            <h1>LEMBAR KERJA 7</h1>
+            <p class="subtitle">Evaluasi Integral Menggunakan Limit Jumlah Riemann</p>
             <p style="margin-top:1rem; opacity:0.9;">
-                Berdasarkan buku halaman 59–66 • Introduction to Integral Calculus (Rohde et al., 2012)
+                Berdasarkan Chapter 5 • Buku halaman 152–157<br>
+                Definisi Definite Integral = \(\lim_{\|P\|\to 0} \sum_{i=1}^n f(\bar{x}_i) \Delta x_i\)
             </p>
+            <div style="position:absolute; top:2rem; right:3rem; background:rgba(255,255,255,0.2); padding:10px 20px; border-radius:50px; font-size:0.95rem;">
+                Mentor Kalkulus Integral FMIPA • Semua langkah merujuk langsung ke buku
+            </div>
         </header>
 
         <div class="main-content">
 
-            <!-- A. PEMAHAMAN KONSEP -->
-            <div class="concept-box">
-                <h2>A. Pemahaman Konsep</h2>
-                <p>Di bagian 3a.4 ini, kita belajar menangani integral rasional trigonometri yang bentuk pembilang (numerator) dan penyebut (denominator) sama-sama kombinasi linear dari <strong>sin x</strong> dan <strong>cos x</strong>.</p>
-                <p>Intuisi: Mirip dengan integral bentuk \(\int \frac{a e^x + b}{c e^x + d}\, dx\) yang sudah kita pelajari di contoh sebelumnya. Kita memecah pembilang menjadi dua bagian:</p>
-                <ul>
-                    <li>Bagian yang sama persis dengan denominator</li>
-                    <li>Bagian yang sama dengan turunan dari denominator</li>
-                </ul>
-                <p>Ini membuat integral langsung terurai menjadi integral konstan + integral bentuk \(\int \frac{f'(x)}{f(x)}\, dx = \log |f(x)| + c\).</p>
-            </div>
-
-            <!-- B. DASAR TEORI -->
-            <div class="theory-box">
-                <h2>B. Dasar Teori (Buku hal. 59–60)</h2>
-                <p>Metode ini adalah aplikasi langsung dari <strong>Corollary 4</strong> dan <strong>Corollary 7</strong> yang sudah dibahas di 3a.3.1.</p>
-                <p>Kita tulis pembilang sebagai:</p>
-                <p style="font-size:1.3rem; text-align:center; margin:1.2rem 0;">
-                    \(a \sin x + b \cos x = A (c \sin x + d \cos x) + B \frac{d}{dx}(c \sin x + d \cos x)\)
-                </p>
-                <p>Di mana turunan denominator adalah:</p>
-                <p style="font-size:1.2rem; text-align:center;">
-                    \(\frac{d}{dx}(c \sin x + d \cos x) = c \cos x - d \sin x\)
-                </p>
-                <p>Setelah mencari A dan B dengan menyamakan koefisien sin x dan cos x, integral menjadi:</p>
-                <p style="font-size:1.25rem; text-align:center;">
-                    \(A \int dx + B \int \frac{c \cos x - d \sin x}{c \sin x + d \cos x}\, dx = A x + B \log |c \sin x + d \cos x| + c\)
-                </p>
-            </div>
-
-            <!-- C. STRATEGI PENYELESAIAN -->
-            <h2 style="color:var(--primary); margin:2rem 0 1rem;">C. Strategi Penyelesaian</h2>
-            <p>Metode ini dipilih ketika:</p>
-            <ul>
-                <li>Pembilang dan penyebut sama-sama linear kombinasi sin x dan cos x</li>
-                <li>Tidak ada cara substitusi langsung yang sederhana</li>
-                <li>Kita ingin mengubahnya menjadi bentuk yang langsung menggunakan logaritma (Corollary 4)</li>
-            </ul>
-
-            <!-- D. CONTOH 16 (Buku hal. 60) -->
+            <!-- SOAL 1 -->
             <div class="example">
-                <div class="example-title">Contoh 16 (Buku hal. 60) — Example (16)</div>
-                <p>Hitung \( I = \int \frac{\sin x + 2 \cos x}{3 \sin x + 4 \cos x}\, dx \)</p>
+                <div class="example-title">SOAL 1: \(\int_0^1 e^{x^2 + 2x + 1}\, dx\)</div>
                 
-                <div class="step">
-                    <p>Turunan denominator: \( 3 \cos x - 4 \sin x \)</p>
-                    <p>Tulis: \(\sin x + 2 \cos x = A(3 \sin x + 4 \cos x) + B(3 \cos x - 4 \sin x)\)</p>
-                </div>
-                
-                <div class="step">
-                    <p>Sama kan koefisien:</p>
-                    <p>\( (3A - 4B) \sin x + (4A + 3B) \cos x = 1 \sin x + 2 \cos x \)</p>
-                    <p>Sistem persamaan:<br>
-                    \( 3A - 4B = 1 \)  (1)<br>
-                    \( 4A + 3B = 2 \)  (2)
+                <div class="concept-box">
+                    <h3>A. Pemahaman Konsep</h3>
+                    <p>Kita gunakan definisi analitik definite integral (buku hal. 153):</p>
+                    <p style="text-align:center; font-size:1.3rem;">
+                        \[\int_a^b f(x)\, dx = \lim_{\|P\|\to 0} \sum_{i=1}^n f(\bar{x}_i) \Delta x_i\]
                     </p>
-                    <p>Selesaikan: Kalikan (1) dengan 3 dan (2) dengan 4, lalu tambah → \( 25A = 11 \) → \( A = \frac{11}{25} \)<br>
-                    Masukkan ke (2) → \( B = \frac{2}{25} \)
+                    <p>di mana \(f(x) = e^{x^2 + 2x + 1} = e^{(x+1)^2}\), interval [0,1].</p>
                 </div>
-                
+
+                <div class="theory-box">
+                    <h3>B. Dasar Teori (Buku hal. 157)</h3>
+                    <p>Gunakan partition reguler (subinterval sama panjang) seperti contoh f(x)=2x di buku hal. 148.</p>
+                    <p>Δx = (b−a)/n = 1/n, right endpoint \(\bar{x}_i = i/n\) (i=1,2,…,n).</p>
+                </div>
+
                 <div class="step">
-                    <p>Integral menjadi:</p>
-                    <p>\( I = \frac{11}{25} \int dx + \frac{2}{25} \int \frac{3 \cos x - 4 \sin x}{3 \sin x + 4 \cos x}\, dx \)</p>
-                    <p>\( = \frac{11}{25} x + \frac{2}{25} \log |3 \sin x + 4 \cos x| + c \)</p>
+                    <p>Partition: \(x_0=0\), \(x_1=1/n\), …, \(x_n=1\)</p>
+                    <p>Δx = 1/n</p>
+                    <p>Sample point (right endpoint): \(\bar{x}_i = i/n\)</p>
+                </div>
+
+                <div class="step">
+                    <p>Riemann sum:</p>
+                    <p>\[
+                        S_n = \sum_{i=1}^n f(\bar{x}_i) \Delta x = \sum_{i=1}^n e^{(i/n)^2 + 2(i/n) + 1} \cdot \frac{1}{n}
+                    \]</p>
+                    <p>\[
+                        S_n = \frac{1}{n} \sum_{i=1}^n \exp\left( \left(\frac{i}{n} + 1\right)^2 \right)
+                    \]</p>
+                </div>
+
+                <div class="step">
+                    <p>Definite integral adalah limit Riemann sum:</p>
+                    <p>\[
+                        \int_0^1 e^{x^2 + 2x + 1}\, dx = \lim_{n\to\infty} \frac{1}{n} \sum_{i=1}^n \exp\left( \left(\frac{i}{n} + 1\right)^2 \right)
+                    \]</p>
+                    <p><strong>Catatan:</strong> Fungsi ini tidak memiliki antiderivative elementer, sehingga jawaban akhir adalah limit di atas (sesuai definisi buku hal. 153).</p>
                 </div>
             </div>
 
-            <!-- E. CONTOH 17 (Buku hal. 60–61) -->
+            <!-- SOAL 2 -->
             <div class="example">
-                <div class="example-title">Contoh 17 (Buku hal. 60) — Example (17)</div>
-                <p>Hitung \( I = \int \frac{1}{1 + \tan x}\, dx \)</p>
+                <div class="example-title">SOAL 2: \(\int_{-1}^1 e^{2x}\, dx\)</div>
                 
-                <div class="step">
-                    <p>Rewrite: \( \frac{1}{1 + \tan x} = \frac{\cos x}{\cos x + \sin x} \)</p>
-                    <p>Turunan denominator: \( -\sin x + \cos x \)</p>
-                    <p>Tulis: \( \cos x = A(\cos x + \sin x) + B(\cos x - \sin x) \)</p>
+                <div class="concept-box">
+                    <h3>A. Pemahaman Konsep</h3>
+                    <p>Sama seperti soal 1, gunakan definisi Riemann sum (buku hal. 153) dengan partition reguler.</p>
                 </div>
-                
-                <div class="step">
-                    <p>Sama kan: \( (A + B)\cos x + (A - B)\sin x = 1 \cdot \cos x + 0 \cdot \sin x \)</p>
-                    <p>→ \( A + B = 1 \)<br>
-                    \( A - B = 0 \)<br>
-                    → \( A = \frac{1}{2} \), \( B = \frac{1}{2} \)
+
+                <div class="theory-box">
+                    <h3>B. Dasar Teori</h3>
+                    <p>Interval [−1,1], panjang = 2 → Δx = 2/n</p>
+                    <p>Right endpoint: \(\bar{x}_i = -1 + i \cdot (2/n)\), i=1 sampai n</p>
                 </div>
-                
+
                 <div class="step">
-                    <p>Integral menjadi:</p>
-                    <p>\( I = \frac{1}{2} \int dx + \frac{1}{2} \int \frac{\cos x - \sin x}{\cos x + \sin x}\, dx \)</p>
-                    <p>Substitusi \( \cos x + \sin x = t \Rightarrow (\cos x - \sin x)\, dx = dt \)</p>
-                    <p>\( I = \frac{x}{2} + \frac{1}{2} \log | \cos x + \sin x | + c \)</p>
+                    <p>Riemann sum:</p>
+                    <p>\[
+                        S_n = \sum_{i=1}^n e^{2 \bar{x}_i} \cdot \frac{2}{n} = \frac{2}{n} \sum_{i=1}^n \exp\left(2\left(-1 + \frac{2i}{n}\right)\right)
+                    \]</p>
+                    <p>\[
+                        S_n = \frac{2}{n} e^{-2} \sum_{i=1}^n \left(e^{4/n}\right)^i
+                    \]</p>
+                </div>
+
+                <div class="step">
+                    <p>Sum deret geometri: \(\sum_{i=1}^n r^i = r \frac{r^n-1}{r-1}\) dengan \(r = e^{4/n}\)</p>
+                    <p>\[
+                        S_n = \frac{2}{n} e^{-2} \cdot e^{4/n} \cdot \frac{(e^{4/n})^n - 1}{e^{4/n} - 1} = \frac{2}{n} e^{-2} \cdot e^{4/n} \cdot \frac{e^4 - 1}{e^{4/n} - 1}
+                    \]</p>
+                </div>
+
+                <div class="step">
+                    <p>Ambil limit n → ∞:</p>
+                    <p>\(e^{4/n} \to 1\), dan \(\frac{2/n}{e^{4/n}-1} \to \frac{2}{4} = \frac{1}{2}\) (karena \(\lim_{h\to0} \frac{e^h-1}{h}=1\), h=4/n)</p>
+                    <p>\[
+                        \lim_{n\to\infty} S_n = \frac{1}{2} e^{-2} (e^4 - 1) = \frac{1}{2} (e^2 - e^{-2})
+                    \]</p>
+                </div>
+
+                <div class="reflection">
+                    <h3>E. Interpretasi Hasil</h3>
+                    <p>\(\int_{-1}^1 e^{2x}\, dx = \frac{e^2 - e^{-2}}{2}\)</p>
+                    <p>Ini sama dengan antiderivative \(\frac{1}{2}e^{2x}\) dievaluasi dari −1 ke 1 (akan dibuktikan di bab berikutnya dengan Fundamental Theorem of Calculus).</p>
                 </div>
             </div>
 
-            <!-- F. LATIHAN LANJUTAN DARI BUKU -->
-            <div class="theory-box">
-                <h2>F. Latihan Tambahan (Buku hal. 61)</h2>
-                <p>(i) \(\int \frac{1}{1 + \cot x}\, dx = \frac{x}{2} - \frac{1}{2} \log |\sin x + \cos x| + c\)</p>
-                <p>(ii) \(\int \frac{1}{3 + 2 \tan x}\, dx = \frac{3}{13} x + \frac{2}{13} \log |3 \cos x + 2 \sin x| + c\)</p>
-                <p>(iii) \(\int \frac{3 \sin x + 4 \cos x}{2 \sin x + \cos x}\, dx = 2x + \log |2 \sin x + \cos x| + c\)</p>
-            </div>
-
-            <!-- G. REFLEKSI KONSEP -->
             <div class="reflection">
-                <h2>G. Refleksi &amp; Insight Penting</h2>
+                <h3>F. Refleksi Keseluruhan Lembar Kerja 7</h3>
                 <ul>
-                    <li><strong>Kenapa metode ini kuat?</strong> Karena langsung memanfaatkan turunan denominator sehingga muncul bentuk \(\frac{f'}{f}\).</li>
-                    <li><strong>Kesalahan umum:</strong> Lupa menuliskan turunan denominator dengan tanda minus yang benar (c cos x – d sin x).</li>
-                    <li><strong>Hubungan dengan bab sebelumnya:</strong> Ini adalah perluasan dari Generalized Power Rule dan Corollary 4 &amp; 7 di 3a.3.</li>
-                    <li><strong>Aplikasi lanjut:</strong> Metode yang sama juga bisa dipakai untuk bentuk yang lebih umum (a + b cos x + c sin x) di bab berikutnya.</li>
+                    <li>Kita menggunakan definisi Riemann sum tepat seperti buku hal. 152–157.</li>
+                    <li>Soal 1 menunjukkan bahwa tidak semua integral punya bentuk tertutup → jawaban adalah limit sum.</li>
+                    <li>Soal 2 berhasil karena bentuk eksponen linier menghasilkan deret geometri (seperti contoh f(x)=2x di buku).</li>
+                    <li>Kesalahan umum: lupa mengalikan Δx atau salah memilih right/left endpoint.</li>
+                    <li>Insight: Definite integral adalah limit proses Archimedes yang dimodernisasi (buku hal. 139–140).</li>
                 </ul>
-                <p><strong>Tujuan akhir:</strong> Anda sekarang mampu menyelesaikan semua integral rasional trigonometri linear hanya dengan mencari A dan B.</p>
+                <p><strong>Sudah selesai!</strong> Anda sekarang paham cara menghitung integral langsung dari definisi Riemann sum.</p>
             </div>
 
             <footer>
-                Modul 3a.4 lengkap • 100% berdasarkan dokumen resmi buku halaman 59–61<br>
-                Mentor Kalkulus Integral FMIPA • Semua langkah merujuk langsung ke teorema dan corollaries di 3a.3
+                Lembar Kerja 7 telah dikerjakan lengkap • 100% berdasarkan buku hal. 139–157<br>
+                Mentor Kalkulus Integral FMIPA • Siap lanjut ke bab berikutnya kapan saja
             </footer>
         </div>
     </div>
 
     <script>
         window.MathJax = { tex: { inlineMath: [['\( ', ' \)'], ['\\(', '\\)']] } };
-        console.log('%c✅ Penjelasan lengkap 3a.4 telah dimuat sebagai artefak HTML interaktif', 'color:#00aaff; font-size:16px; font-weight:bold');
+        console.log('%c✅ Lembar Kerja 7 telah dikerjakan lengkap sesuai definisi Riemann sum buku', 'color:#00aaff; font-size:16px; font-weight:bold');
     </script>
 </body>
 </html>
