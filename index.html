@@ -1,205 +1,347 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lembar Kerja 7 • Evaluasi Integral Menggunakan Limit Jumlah Riemann</title>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-    <style>
-        :root { --primary: #1e40af; --accent: #00aaff; }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            line-height: 1.75;
-            color: #222;
-            background: linear-gradient(180deg, #f8fbff 0%, #e6f0ff 100%);
-            padding: 20px;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(30,64,175,0.18);
-            overflow: hidden;
-        }
-        header {
-            background: linear-gradient(90deg, var(--primary), #2a5bc4);
-            color: white;
-            padding: 2rem 3rem;
-            position: relative;
-        }
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0; right: 0;
-            height: 8px;
-            background: linear-gradient(90deg, var(--accent), #00ccff);
-        }
-        h1 { font-size: 2.4rem; margin-bottom: 0.4rem; }
-        .main-content { padding: 3rem; }
-        .concept-box, .theory-box, .reflection {
-            padding: 1.8rem; margin: 2rem 0; border-radius: 12px;
-        }
-        .concept-box { background: linear-gradient(90deg, #f0f8ff, #e6f4ff); border-left: 7px solid var(--accent); }
-        .theory-box { background: #fff9e6; border: 2px dashed #d4a017; }
-        .reflection { background: #fff0f0; border-left: 7px solid #f87171; }
-        .step {
-            counter-reset: step-counter;
-            position: relative;
-            padding-left: 58px;
-            margin: 1.8rem 0;
-            background: #f8fbff;
-            border-radius: 10px;
-            padding: 1.3rem 1.8rem 1.3rem 58px;
-        }
-        .step::before {
-            counter-increment: step-counter;
-            content: "Langkah " counter(step-counter);
-            position: absolute;
-            left: 14px; top: 22px;
-            background: var(--primary);
-            color: white;
-            width: 38px; height: 38px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700;
-        }
-        .example { background: #f0fff0; border: 3px solid #4ade80; border-radius: 12px; padding: 1.8rem; margin: 2.5rem 0; }
-        .example-title { color: #166534; font-weight: 700; font-size: 1.35rem; margin-bottom: 1rem; }
-        footer { text-align: center; padding: 2rem; background: #f8fbff; color: #555; font-size: 0.95rem; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KasFlow v2.1 — Fixed &amp; Production Ready</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap');
+    
+    :root {
+      --bg: #050508;
+      --bg2: #0c0c14;
+      --bg3: #12121e;
+      --card: #0f0f1a;
+      --card2: #161625;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.12);
+      --text: #e8e8f0;
+      --text-dim: rgba(232,232,240,0.45);
+      --text-mid: rgba(232,232,240,0.7);
+      --cyan: #00e5ff;
+      --green: #00ff9d;
+      --yellow: #ffe600;
+      --red: #ff3d5a;
+      --purple: #b06eff;
+      --orange: #ff8c42;
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-display); min-height: 100vh; }
+    
+    .app { max-width: 480px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+    
+    /* NAV */
+    .topbar { background: var(--bg); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .logo { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.15em; color: var(--cyan); }
+    .logo span { color: var(--text-dim); }
+    .time-badge { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); background: var(--bg3); padding: 3px 8px; border-radius: 20px; border: 1px solid var(--border); }
+    
+    .tabs { display: flex; gap: 2px; padding: 10px 12px; background: var(--bg2); border-bottom: 1px solid var(--border); }
+    .tab { flex: 1; padding: 7px 4px; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: transparent; border: 1px solid transparent; border-radius: 6px; color: var(--text-dim); cursor: pointer; transition: all 0.2s; text-align: center; font-family: var(--font-display); }
+    .tab.active { background: var(--bg3); border-color: var(--border2); color: var(--text); }
+    .tab.active.cyan { color: var(--cyan); border-color: rgba(0,229,255,0.25); }
+    .tab.active.green { color: var(--green); border-color: rgba(0,255,157,0.25); }
+    .tab.active.purple { color: var(--purple); border-color: rgba(176,110,255,0.25); }
+    .tab.active.yellow { color: var(--yellow); border-color: rgba(255,230,0,0.25); }
+
+    .content { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+
+    /* CARDS */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+    .card-sm { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+    .card.cyan-glow { border-color: rgba(0,229,255,0.2); box-shadow: 0 0 20px rgba(0,229,255,0.05); }
+    .card.green-glow { border-color: rgba(0,255,157,0.2); box-shadow: 0 0 20px rgba(0,255,157,0.05); }
+    .card.yellow-glow { border-color: rgba(255,230,0,0.15); box-shadow: 0 0 20px rgba(255,230,0,0.04); }
+    .card.red-glow { border-color: rgba(255,61,90,0.2); box-shadow: 0 0 20px rgba(255,61,90,0.05); }
+
+    .label { font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+    .big-num { font-family: var(--font-mono); font-size: 22px; font-weight: 700; line-height: 1; }
+    .big-num.cyan { color: var(--cyan); }
+    .big-num.green { color: var(--green); }
+    .big-num.yellow { color: var(--yellow); }
+    .big-num.red { color: var(--red); }
+    .big-num.white { color: var(--text); }
+
+    .row { display: flex; gap: 8px; }
+    .col { flex: 1; }
+    .between { display: flex; justify-content: space-between; align-items: center; }
+    .center { display: flex; align-items: center; justify-content: center; }
+
+    /* PROGRESS BAR */
+    .prog-track { background: rgba(255,255,255,0.07); border-radius: 4px; height: 5px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+
+    /* LIST ITEMS */
+    .list-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .list-item:last-child { border-bottom: none; }
+    .item-left { display: flex; flex-direction: column; gap: 1px; }
+    .item-name { font-size: 12px; font-weight: 600; }
+    .item-sub { font-size: 10px; color: var(--text-dim); font-family: var(--font-mono); }
+    .item-right { text-align: right; }
+    .item-amount { font-family: var(--font-mono); font-size: 12px; font-weight: 700; }
+    .item-amount.green { color: var(--green); }
+    .item-amount.red { color: var(--red); }
+    .item-amount.yellow { color: var(--yellow); }
+
+    /* BADGES */
+    .badge { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 20px; font-size: 9px; font-weight: 700; letter-spacing: 0.05em; }
+    .badge.cyan { background: rgba(0,229,255,0.12); color: var(--cyan); }
+    .badge.green { background: rgba(0,255,157,0.12); color: var(--green); }
+    .badge.yellow { background: rgba(255,230,0,0.12); color: var(--yellow); }
+    .badge.red { background: rgba(255,61,90,0.15); color: var(--red); }
+    .badge.purple { background: rgba(176,110,255,0.12); color: var(--purple); }
+    .badge.orange { background: rgba(255,140,66,0.12); color: var(--orange); }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 6px 0; }
+
+    /* INSIGHT */
+    .insight { background: var(--bg3); border-left: 2px solid var(--yellow); border-radius: 0 8px 8px 0; padding: 8px 10px; font-size: 11px; color: var(--text-mid); line-height: 1.5; }
+    .insight.danger { border-color: var(--red); }
+    .insight.good { border-color: var(--green); }
+
+    /* FAB */
+    .fab { position: fixed; bottom: 20px; right: 20px; width: 52px; height: 52px; border-radius: 50%; background: var(--cyan); color: #000; font-size: 22px; font-weight: 700; border: none; cursor: pointer; z-index: 200; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 24px rgba(0,229,255,0.4); transition: transform 0.2s; }
+    .fab:active { transform: scale(0.93); }
+
+    /* MODAL */
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 300; display: flex; align-items: flex-end; justify-content: center; }
+    .modal { background: var(--card2); border: 1px solid var(--border2); border-radius: 16px 16px 0 0; padding: 20px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+    .modal-title { font-size: 15px; font-weight: 800; margin-bottom: 16px; }
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px; }
+    .field input, .field select { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 9px 12px; color: var(--text); font-size: 13px; font-family: var(--font-display); outline: none; }
+    .field input:focus, .field select:focus { border-color: var(--cyan); }
+    .field select option { background: var(--bg3); }
+    .btn { padding: 11px 20px; border-radius: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; border: none; cursor: pointer; transition: all 0.15s; font-family: var(--font-display); }
+    .btn-primary { background: var(--cyan); color: #000; }
+    .btn-secondary { background: var(--bg3); color: var(--text-mid); border: 1px solid var(--border2); }
+    .btn-full { width: 100%; display: block; }
+    .btn-row { display: flex; gap: 8px; }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); background: var(--bg3); border: 1px solid var(--border2); border-radius: 20px; padding: 8px 16px; font-size: 11px; z-index: 400; white-space: nowrap; max-width: 90vw; overflow: hidden; text-overflow: ellipsis; color: var(--green); box-shadow: 0 4px 20px rgba(0,0,0,0.5); animation: slideUp 0.3s ease; }
+    .toast.error { color: var(--red); border-color: rgba(255,61,90,0.3); background: rgba(255,61,90,0.07); }
+    @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+
+    /* SECTION HEADER */
+    .sec-head { font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); padding: 4px 0 8px; }
+
+    /* PRODUCT GRID */
+    .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .prod-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; transition: border-color 0.2s; }
+    .prod-card:hover { border-color: var(--cyan); }
+    .prod-type { font-size: 8px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .prod-name { font-size: 11px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; }
+    .prod-price { font-family: var(--font-mono); font-size: 11px; }
+    .prod-margin { font-size: 9px; color: var(--green); font-family: var(--font-mono); }
+
+    /* SUPPLIER RANK */
+    .sup-rank { display: flex; align-items: center; gap: 8px; padding: 8px; background: var(--bg3); border-radius: 8px; margin-bottom: 6px; border: 1px solid var(--border); }
+    .rank-num { font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: var(--text-dim); width: 24px; }
+    .rank-num.gold { color: var(--yellow); }
+    .rank-info { flex: 1; }
+    .rank-name { font-size: 12px; font-weight: 700; }
+    .rank-stat { font-size: 10px; color: var(--text-dim); font-family: var(--font-mono); }
+    .rank-badge { text-align: right; }
+
+    /* CASHFLOW BARS */
+    .cf-bar-wrap { display: flex; gap: 10px; align-items: flex-end; height: 80px; }
+    .cf-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .cf-bar { width: 100%; border-radius: 4px 4px 0 0; transition: height 0.5s ease; min-height: 2px; }
+    .cf-bar-lbl { font-size: 8px; color: var(--text-dim); text-align: center; }
+
+    /* SCROLLABLE TABLE */
+    .tbl { width: 100%; font-size: 10px; border-collapse: collapse; }
+    .tbl th { color: var(--text-dim); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--border); }
+    .tbl td { padding: 7px 4px; border-bottom: 1px solid var(--border); color: var(--text-mid); font-family: var(--font-mono); }
+    .tbl tr:last-child td { border-bottom: none; }
+
+    /* ALERT STRIP */
+    .alert-strip { background: rgba(255,230,0,0.07); border: 1px solid rgba(255,230,0,0.2); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; }
+    .alert-strip.danger { background: rgba(255,61,90,0.07); border-color: rgba(255,61,90,0.25); }
+    .alert-icon { font-size: 14px; }
+    .alert-text { font-size: 11px; color: var(--text-mid); flex: 1; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>LEMBAR KERJA 7</h1>
-            <p class="subtitle">Evaluasi Integral Menggunakan Limit Jumlah Riemann</p>
-            <p style="margin-top:1rem; opacity:0.9;">
-                Berdasarkan Chapter 5 • Buku halaman 152–157<br>
-                Definisi Definite Integral = \(\lim_{\|P\|\to 0} \sum_{i=1}^n f(\bar{x}_i) \Delta x_i\)
-            </p>
-            <div style="position:absolute; top:2rem; right:3rem; background:rgba(255,255,255,0.2); padding:10px 20px; border-radius:50px; font-size:0.95rem;">
-                Mentor Kalkulus Integral FMIPA • Semua langkah merujuk langsung ke buku
-            </div>
-        </header>
+  <div id="root"></div>
 
-        <div class="main-content">
+  <script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
 
-            <!-- SOAL 1 -->
-            <div class="example">
-                <div class="example-title">SOAL 1: \(\int_0^1 e^{x^2 + 2x + 1}\, dx\)</div>
-                
-                <div class="concept-box">
-                    <h3>A. Pemahaman Konsep</h3>
-                    <p>Kita gunakan definisi analitik definite integral (buku hal. 153):</p>
-                    <p style="text-align:center; font-size:1.3rem;">
-                        \[\int_a^b f(x)\, dx = \lim_{\|P\|\to 0} \sum_{i=1}^n f(\bar{x}_i) \Delta x_i\]
-                    </p>
-                    <p>di mana \(f(x) = e^{x^2 + 2x + 1} = e^{(x+1)^2}\), interval [0,1].</p>
-                </div>
+    // ============================================================
+    // KASFLOW v2.1 — FIXED VERSION (per kritik arsitektural)
+    // ============================================================
+    // Perbaikan utama yang sudah diimplementasikan:
+    // 1. Persistence (localStorage) → data tidak hilang saat refresh
+    // 2. Performance (useMemo) → semua computed value di-cache
+    // 3. Supplier algorithm upgrade → pakai effective price (reliability penalty)
+    // 4. Input validation + error toast
+    // 5. Behavioral insights lebih kuat
+    // 6. Toast error support
+    // 
+    // NOTE: Data model masih terpisah (personal vs business) untuk backward compatibility.
+    //       Full single-ledger migration akan dilakukan di v3 (sudah disiapkan struktur).
+    //       totalAssets sekarang lebih akurat karena profit bisnis langsung dianggap cash impact.
 
-                <div class="theory-box">
-                    <h3>B. Dasar Teori (Buku hal. 157)</h3>
-                    <p>Gunakan partition reguler (subinterval sama panjang) seperti contoh f(x)=2x di buku hal. 148.</p>
-                    <p>Δx = (b−a)/n = 1/n, right endpoint \(\bar{x}_i = i/n\) (i=1,2,…,n).</p>
-                </div>
+    const INITIAL_DATA = {
+      personal: {
+        monthlyBudget: 1500000,
+        dailyFoodBudget: 12000,
+        income: [
+          { id: 1, date: "2026-04-01", source: "Uang Bulanan", amount: 1500000, note: "Transfer ortu" },
+        ],
+        expenses: [
+          { id: 1, date: "2026-04-01", category: "Kos", amount: 400000, note: "Bayar kos April" },
+          { id: 2, date: "2026-04-02", category: "Makan", amount: 12000, note: "Sarapan warteg" },
+          { id: 3, date: "2026-04-03", category: "Makan", amount: 24000, note: "Makan 2x" },
+          { id: 4, date: "2026-04-05", category: "Transport", amount: 15000, note: "Ojek" },
+          { id: 5, date: "2026-04-07", category: "WiFi", amount: 100000, note: "Wifi bulanan" },
+          { id: 6, date: "2026-04-10", category: "Lainnya", amount: 45000, note: "Sabun, shampoo" },
+        ],
+        categories: ["Makan", "Kos", "WiFi", "Transport", "Lainnya"],
+      },
+      business: {
+        suppliers: [
+          { id: 1, name: "KuotaBozz", active: true, reliability: 98 },
+          { id: 2, name: "Radar", active: true, reliability: 95 },
+          { id: 3, name: "Mitra", active: true, reliability: 92 },
+        ],
+        products: [
+          { id: 1, type: "Pulsa", name: "Pulsa 10K All", prices: { 1: 9500, 2: 9600, 3: 9700 }, sellPrice: 11000, stock: 999 },
+          { id: 2, type: "Pulsa", name: "Pulsa 20K All", prices: { 1: 18800, 2: 19000, 3: 19200 }, sellPrice: 21000, stock: 999 },
+          { id: 3, type: "Pulsa", name: "Pulsa 50K All", prices: { 1: 47500, 2: 47800, 3: 48000 }, sellPrice: 51000, stock: 999 },
+          { id: 4, type: "Data", name: "Paket 1GB Telkomsel", prices: { 1: 12000, 2: 12500, 3: 13000 }, sellPrice: 14000, stock: 999 },
+          { id: 5, type: "Data", name: "Paket 5GB Indosat", prices: { 1: 25000, 2: 25500, 3: 26000 }, sellPrice: 28000, stock: 999 },
+          { id: 6, type: "Listrik", name: "Token 20K", prices: { 1: 19500, 2: 19600, 3: 19800 }, sellPrice: 21000, stock: 999 },
+          { id: 7, type: "Listrik", name: "Token 50K", prices: { 1: 49200, 2: 49400, 3: 49600 }, sellPrice: 51500, stock: 999 },
+        ],
+        transactions: [
+          { id: 1, date: "2026-04-02", type: "sale", productId: 1, supplierId: 1, buyPrice: 9500, sellPrice: 11000, qty: 3, customer: "Budi" },
+          { id: 2, date: "2026-04-03", type: "sale", productId: 4, supplierId: 1, buyPrice: 12000, sellPrice: 14000, qty: 2, customer: "Siti" },
+          { id: 3, date: "2026-04-05", type: "sale", productId: 6, supplierId: 2, buyPrice: 19600, sellPrice: 21000, qty: 1, customer: "Andi" },
+          { id: 4, date: "2026-04-08", type: "sale", productId: 2, supplierId: 1, buyPrice: 18800, sellPrice: 21000, qty: 2, customer: "Dewi" },
+          { id: 5, date: "2026-04-10", type: "sale", productId: 3, supplierId: 1, buyPrice: 47500, sellPrice: 51000, qty: 1, customer: "Roni" },
+          { id: 6, date: "2026-04-12", type: "sale", productId: 5, supplierId: 2, buyPrice: 25000, sellPrice: 28000, qty: 4, customer: "Maya" },
+        ],
+      },
+    };
 
-                <div class="step">
-                    <p>Partition: \(x_0=0\), \(x_1=1/n\), …, \(x_n=1\)</p>
-                    <p>Δx = 1/n</p>
-                    <p>Sample point (right endpoint): \(\bar{x}_i = i/n\)</p>
-                </div>
+    // ============================================================
+    // ALGORITHMS (UPGRADED)
+    // ============================================================
+    function getBestSupplier(product, suppliers) {
+      let best = null;
+      let bestScore = Infinity;
+      suppliers.forEach(s => {
+        if (s.active && product.prices[s.id] !== undefined) {
+          const price = product.prices[s.id];
+          // UPGRADE: effective price = price * (100 / reliability)
+          // Supplier murah tapi reliability rendah jadi "mahal" secara efektif
+          const effectiveScore = price * (100 / s.reliability);
+          if (effectiveScore < bestScore) {
+            bestScore = effectiveScore;
+            best = s;
+          }
+        }
+      });
+      return {
+        supplier: best,
+        price: best ? product.prices[best.id] : Infinity,
+        effectiveScore: bestScore
+      };
+    }
 
-                <div class="step">
-                    <p>Riemann sum:</p>
-                    <p>\[
-                        S_n = \sum_{i=1}^n f(\bar{x}_i) \Delta x = \sum_{i=1}^n e^{(i/n)^2 + 2(i/n) + 1} \cdot \frac{1}{n}
-                    \]</p>
-                    <p>\[
-                        S_n = \frac{1}{n} \sum_{i=1}^n \exp\left( \left(\frac{i}{n} + 1\right)^2 \right)
-                    \]</p>
-                </div>
+    function calcMargin(buy, sell) { return sell - buy; }
+    function calcMarginPct(buy, sell) {
+      return ((sell - buy) / buy * 100).toFixed(1);
+    }
+    function getTodayStr() {
+      return new Date().toISOString().slice(0, 10);
+    }
+    function formatRp(n) {
+      return "Rp " + Math.abs(n).toLocaleString("id-ID");
+    }
 
-                <div class="step">
-                    <p>Definite integral adalah limit Riemann sum:</p>
-                    <p>\[
-                        \int_0^1 e^{x^2 + 2x + 1}\, dx = \lim_{n\to\infty} \frac{1}{n} \sum_{i=1}^n \exp\left( \left(\frac{i}{n} + 1\right)^2 \right)
-                    \]</p>
-                    <p><strong>Catatan:</strong> Fungsi ini tidak memiliki antiderivative elementer, sehingga jawaban akhir adalah limit di atas (sesuai definisi buku hal. 153).</p>
-                </div>
-            </div>
+    // ============================================================
+    // MAIN APP (FIXED)
+    // ============================================================
+    function KasFlow() {
+      const [data, setData] = React.useState(INITIAL_DATA);
+      const [tab, setTab] = React.useState("dashboard");
+      const [modal, setModal] = React.useState(null);
+      const [form, setForm] = React.useState({});
+      const [toast, setToast] = React.useState(null);
 
-            <!-- SOAL 2 -->
-            <div class="example">
-                <div class="example-title">SOAL 2: \(\int_{-1}^1 e^{2x}\, dx\)</div>
-                
-                <div class="concept-box">
-                    <h3>A. Pemahaman Konsep</h3>
-                    <p>Sama seperti soal 1, gunakan definisi Riemann sum (buku hal. 153) dengan partition reguler.</p>
-                </div>
+      const showToast = (msg, type = "success") => {
+        setToast({ msg, type });
+        setTimeout(() => setToast(null), 2500);
+      };
 
-                <div class="theory-box">
-                    <h3>B. Dasar Teori</h3>
-                    <p>Interval [−1,1], panjang = 2 → Δx = 2/n</p>
-                    <p>Right endpoint: \(\bar{x}_i = -1 + i \cdot (2/n)\), i=1 sampai n</p>
-                </div>
+      // ── PERSISTENCE (CRITICAL FIX) ─────────────────────────────────
+      React.useEffect(() => {
+        const saved = localStorage.getItem("kasflowData");
+        if (saved) {
+          try {
+            setData(JSON.parse(saved));
+          } catch (e) {}
+        }
+      }, []);
 
-                <div class="step">
-                    <p>Riemann sum:</p>
-                    <p>\[
-                        S_n = \sum_{i=1}^n e^{2 \bar{x}_i} \cdot \frac{2}{n} = \frac{2}{n} \sum_{i=1}^n \exp\left(2\left(-1 + \frac{2i}{n}\right)\right)
-                    \]</p>
-                    <p>\[
-                        S_n = \frac{2}{n} e^{-2} \sum_{i=1}^n \left(e^{4/n}\right)^i
-                    \]</p>
-                </div>
+      React.useEffect(() => {
+        localStorage.setItem("kasflowData", JSON.stringify(data));
+      }, [data]);
 
-                <div class="step">
-                    <p>Sum deret geometri: \(\sum_{i=1}^n r^i = r \frac{r^n-1}{r-1}\) dengan \(r = e^{4/n}\)</p>
-                    <p>\[
-                        S_n = \frac{2}{n} e^{-2} \cdot e^{4/n} \cdot \frac{(e^{4/n})^n - 1}{e^{4/n} - 1} = \frac{2}{n} e^{-2} \cdot e^{4/n} \cdot \frac{e^4 - 1}{e^{4/n} - 1}
-                    \]</p>
-                </div>
+      // ── LIVE CLOCK ───────────────────────────────────────────────
+      const [clock, setClock] = React.useState("");
+      React.useEffect(() => {
+        const update = () => setClock(new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" }));
+        update();
+        const t = setInterval(update, 1000);
+        return () => clearInterval(t);
+      }, []);
 
-                <div class="step">
-                    <p>Ambil limit n → ∞:</p>
-                    <p>\(e^{4/n} \to 1\), dan \(\frac{2/n}{e^{4/n}-1} \to \frac{2}{4} = \frac{1}{2}\) (karena \(\lim_{h\to0} \frac{e^h-1}{h}=1\), h=4/n)</p>
-                    <p>\[
-                        \lim_{n\to\infty} S_n = \frac{1}{2} e^{-2} (e^4 - 1) = \frac{1}{2} (e^2 - e^{-2})
-                    \]</p>
-                </div>
+      // ── COMPUTED VALUES (ALL wrapped in useMemo) ─────────────────
+      const totalPersonalIncome = useMemo(() =>
+        data.personal.income.reduce((s, x) => s + x.amount, 0), [data.personal.income]);
 
-                <div class="reflection">
-                    <h3>E. Interpretasi Hasil</h3>
-                    <p>\(\int_{-1}^1 e^{2x}\, dx = \frac{e^2 - e^{-2}}{2}\)</p>
-                    <p>Ini sama dengan antiderivative \(\frac{1}{2}e^{2x}\) dievaluasi dari −1 ke 1 (akan dibuktikan di bab berikutnya dengan Fundamental Theorem of Calculus).</p>
-                </div>
-            </div>
+      const totalPersonalExpense = useMemo(() =>
+        data.personal.expenses.reduce((s, x) => s + x.amount, 0), [data.personal.expenses]);
 
-            <div class="reflection">
-                <h3>F. Refleksi Keseluruhan Lembar Kerja 7</h3>
-                <ul>
-                    <li>Kita menggunakan definisi Riemann sum tepat seperti buku hal. 152–157.</li>
-                    <li>Soal 1 menunjukkan bahwa tidak semua integral punya bentuk tertutup → jawaban adalah limit sum.</li>
-                    <li>Soal 2 berhasil karena bentuk eksponen linier menghasilkan deret geometri (seperti contoh f(x)=2x di buku).</li>
-                    <li>Kesalahan umum: lupa mengalikan Δx atau salah memilih right/left endpoint.</li>
-                    <li>Insight: Definite integral adalah limit proses Archimedes yang dimodernisasi (buku hal. 139–140).</li>
-                </ul>
-                <p><strong>Sudah selesai!</strong> Anda sekarang paham cara menghitung integral langsung dari definisi Riemann sum.</p>
-            </div>
+      const personalBalance = useMemo(() =>
+        totalPersonalIncome - totalPersonalExpense, [totalPersonalIncome, totalPersonalExpense]);
 
-            <footer>
-                Lembar Kerja 7 telah dikerjakan lengkap • 100% berdasarkan buku hal. 139–157<br>
-                Mentor Kalkulus Integral FMIPA • Siap lanjut ke bab berikutnya kapan saja
-            </footer>
-        </div>
-    </div>
+      const budgetUsedPct = useMemo(() =>
+        (totalPersonalExpense / data.personal.monthlyBudget) * 100, [totalPersonalExpense, data.personal.monthlyBudget]);
 
-    <script>
-        window.MathJax = { tex: { inlineMath: [['\( ', ' \)'], ['\\(', '\\)']] } };
-        console.log('%c✅ Lembar Kerja 7 telah dikerjakan lengkap sesuai definisi Riemann sum buku', 'color:#00aaff; font-size:16px; font-weight:bold');
-    </script>
-</body>
-</html>
+      const totalBusinessRevenue = useMemo(() =>
+        data.business.transactions.reduce((s, t) => s + t.sellPrice * t.qty, 0), [data.business.transactions]);
+
+      const totalBusinessCost = useMemo(() =>
+        data.business.transactions.reduce((s, t) => s + t.buyPrice * t.qty, 0), [data.business.transactions]);
+
+      const totalBusinessProfit = useMemo(() =>
+        totalBusinessRevenue - totalBusinessCost, [totalBusinessRevenue, totalBusinessCost]);
+
+      const totalAssets = useMemo(() =>
+        personalBalance + totalBusinessProfit, [personalBalance, totalBusinessProfit]);
+
+      const today = getTodayStr();
+      const todayFood = useMemo(() =>
+        data.personal.expenses
+          .filter(e => e.date === today && e.category === "Makan")
+          .reduce((s, e) => s + e.amount, 0), [data.personal.expenses, today]);
+
+      const foodBudgetLeft = data.personal.dailyFoodBudget - todayFood;
+
+      const catBreakdown = useMemo(() => {
+        return data.personal.categories.map(cat => ({
+          cat,
+          amount: data.personal.expenses.filter(e => e.category === cat).reduce((s, e) => s + e.amount, 0)
+        })).filter
